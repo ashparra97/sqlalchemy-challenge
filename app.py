@@ -28,20 +28,30 @@ measurement = base.classes.measurement
 # Create session
 session = Session(engine)
 
-
-
-
+################################
 # Flask set up
 app = Flask(__name__)
 
+################################
+
+
+################################
+# Flask Routes 
 # Route 1: Home 
 @app.route("/")
-def home(): 
-    return render_template("index.html")
+def welcome():
+    return (
+        f"Available Routes:<br/>"
+        f"/api/v1.0/precipitation<br/>"
+        f"/api/v1.0/stations<br/>"
+        f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/start-date<br/>"
+        f"/api/v1.0/start-date/end-date<br/>"
+    )
 
 
 
-
+'''
 # Route 2: Precipitation
 @app.route("/api/v1.0/precipitation")
 
@@ -64,3 +74,5 @@ def home():
 
 @app.route("/api/v1.0/<start>/<end")
     
+
+'''
