@@ -114,6 +114,26 @@ def tobs():
     # filter by station with highest number of observatons
     most_obs = most_active[0][0]
 
+    final = session.query(measurement.date, measurement.tobs).\
+                filter(measurement.date <= "2017-08-23").\
+                filter(measurement.date >= "2016-08-24").\
+                filter(measurement.station == most_obs).all()
+    session.close()
+
+     # Create dictionary from empty list  
+    tobs = []
+    for date, tobs in final:
+        tobs_dict = {}
+        tobs_dict[date] = tobs
+
+        # Append to empty list
+        tobs.append(tobs_dict)
+
+    # Jsonify the list
+    return jsonify(tobs)
+
+
+
 
 '''
 
