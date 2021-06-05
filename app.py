@@ -51,24 +51,24 @@ def welcome():
 
 
 
-'''
+
 # Route 2: Precipitation
 @app.route("/api/v1.0/precipitation")
 
 
-
-# Route 1: Stations
+'''
+# Route 3: Stations
 @app.route("/api/v1.0/stations")
 
 
 
 
-# Route 1: Dates and temps observations
+# Route 4: Dates and temps observations
 @app.route("/api/v1.0/tobs")
 
 
 
-# Route 1: Temperatures
+# Route 5: Temperatures
 @app.route("/api/v1.0/<start")
 
 
