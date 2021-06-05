@@ -67,25 +67,38 @@ def precipitation():
 
         # Append to empty list
         date_prcp.append(dict)
-        
+
     # Jsonify the list
     return jsonify(date_prcp)
 
-
-
-
-'''
 # Route 3: Stations
 @app.route("/api/v1.0/stations")
+def stations():
+    # Begin session to start calling from database
+    session = Session(engine)
+    # Query all mesurements for dates and precipitation
+    stations = session.query(station.station, station.name).all()
+    # Close session
+    session.close()
 
+    # Create dictionary from empty list  
+    stations_list = []
+    for station_id, name in stations:
+        station_dict = {}
+        station_dict[station_id] = name
 
+        # Append to empty list
+        stations_list.append(station_dict)
+
+    # Jsonify the list
+    return jsonify(stations_list)
 
 
 # Route 4: Dates and temps observations
 @app.route("/api/v1.0/tobs")
 
 
-
+'''
 # Route 5: Temperatures
 @app.route("/api/v1.0/<start")
 
