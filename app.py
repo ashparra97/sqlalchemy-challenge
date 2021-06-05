@@ -94,7 +94,7 @@ def stations():
     return jsonify(stations_list)
 
 
-# Route 4: Dates and temps observations
+# Route 4: TOBS
 @app.route("/api/v1.0/tobs")
 def tobs():
     # Begin session to start calling from database
