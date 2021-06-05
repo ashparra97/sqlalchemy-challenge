@@ -96,6 +96,7 @@ def stations():
 
 # Route 4: Dates and temps observations
 @app.route("/api/v1.0/tobs")
+def tobs():
     # Begin session to start calling from database
     session = Session(engine)
 
@@ -110,10 +111,11 @@ def stations():
     # List the stations and the counts in descending order.
     most_rows = session.query(measurement.station, func.count(measurement.station)).\
         group_by(measurement.station).order_by(func.count(measurement.station).desc()).all()
+    # filter by station with highest number of observatons
+    most_obs = most_active[0][0]
 
 
-
-
+'''
 
 Query the dates and temperature observations of 
 the most active station for the last year of data.
@@ -121,7 +123,7 @@ the most active station for the last year of data.
 
 Return a JSON list of temperature observations (TOBS) 
 for the previous year.
-'''
+
 # Route 5: Temperatures
 @app.route("/api/v1.0/<start")
 
