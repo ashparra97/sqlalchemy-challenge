@@ -37,7 +37,7 @@ app = Flask(__name__)
 
 ################################
 # Flask Routes 
-# Route 1: Home 
+# Route 1: Home/All measurements
 @app.route("/")
 def welcome():
     return (
@@ -49,12 +49,29 @@ def welcome():
         f"/api/v1.0/start-date/end-date<br/>"
     )
 
-
 # Route 2: Precipitation
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     # Begin session to start calling from database
     session = Session(engine)
+    # Query all mesurements for dates and precipitation
+    measurements = session.query(measurement.date, measurement.prcp).all()
+    # Close session
+    session.close()
+
+    # Create dictionary from empty list  
+    date_prcp = []
+    for date, prcp in measurements:
+        dict = {}
+        dict[date] = prcp
+
+        # Append to empty list
+        date_prcp.append(dict)
+        
+    # Jsonify the list
+    return jsonify(date_prcp)
+
+
 
 
 '''
