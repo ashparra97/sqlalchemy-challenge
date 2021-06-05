@@ -96,8 +96,14 @@ def stations():
 
 # Route 4: Dates and temps observations
 @app.route("/api/v1.0/tobs")
+    session = Session(engine)
+
+Query the dates and temperature observations of 
+the most active station for the last year of data.
 
 
+Return a JSON list of temperature observations (TOBS) 
+for the previous year.
 '''
 # Route 5: Temperatures
 @app.route("/api/v1.0/<start")
