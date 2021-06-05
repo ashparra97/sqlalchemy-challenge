@@ -99,6 +99,22 @@ def stations():
     # Begin session to start calling from database
     session = Session(engine)
 
+    # Most recent date in data set
+    most_recent = session.query(measurement.date).\
+        order_by(measurement.date.desc()).first()
+
+    # Calculate the date one year from the last date in data set.
+    one_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+
+    # Design a query to find the most active stations (i.e. what stations have the most rows?)
+    # List the stations and the counts in descending order.
+    most_rows = session.query(measurement.station, func.count(measurement.station)).\
+        group_by(measurement.station).order_by(func.count(measurement.station).desc()).all()
+
+
+
+
+
 Query the dates and temperature observations of 
 the most active station for the last year of data.
 
