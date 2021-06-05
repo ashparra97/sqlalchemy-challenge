@@ -50,10 +50,11 @@ def welcome():
     )
 
 
-
-
 # Route 2: Precipitation
 @app.route("/api/v1.0/precipitation")
+def precipitation():
+    # Begin session to start calling from database
+    session = Session(engine)
 
 
 '''
