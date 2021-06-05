@@ -96,6 +96,7 @@ def stations():
 
 # Route 4: Dates and temps observations
 @app.route("/api/v1.0/tobs")
+    # Begin session to start calling from database
     session = Session(engine)
 
 Query the dates and temperature observations of 
