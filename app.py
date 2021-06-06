@@ -55,13 +55,13 @@ def precipitation():
     # Begin session to start calling from database
     session = Session(engine)
     # Query all mesurements for dates and precipitation
-    measurements = session.query(measurement.date, measurement.prcp).all()
+    final = session.query(measurement.date, measurement.prcp).all()
     # Close session
     session.close()
 
     # Create dictionary from empty list  
     date_prcp = []
-    for date, prcp in measurements:
+    for date, prcp in final:
         dict = {}
         dict[date] = prcp
 
@@ -77,13 +77,13 @@ def stations():
     # Begin session to start calling from database
     session = Session(engine)
     # Query all mesurements for dates and precipitation
-    stations = session.query(station.station, station.name).all()
+    final = session.query(station.station, station.name).all()
     # Close session
     session.close()
 
     # Create dictionary from empty list  
     stations_list = []
-    for station_id, name in stations:
+    for station_id, name in final:
         station_dict = {}
         station_dict[station_id] = name
 
@@ -137,14 +137,12 @@ def tobs():
 @app.route("/api/v1.0/<start>")
 def start_date(start):
     # Begin session to start calling from database
-    session = Session(engine)
-    
-    start_date = dt.date(int(date[0]), int(date[1]), int(date[2]))
-    final = session.query(measurement.date, func.min(measurement.tobs), func.max(measurement.tobs), func.avg(measurement.tobs)).\
-        filter(measurement.date >= start_date)
+    session = Session(engine)    
+    final = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
+            filter(measurement.date >= start).all()
     session.close()
 
-     Create dictionary from empty list  
+    # Create dictionary from empty list  
     final_tobs = []
     for date, min_tobs, max_tobs, avg_tobs in final:
         tobs_dict = {}
@@ -153,22 +151,36 @@ def start_date(start):
         tobs_dict["Max"] = max_tobs 
         tobs_dict["Avg"] = avg_tobs
 
+        # Append to empty list
         final_tobs.append(tobs_dict)
     
     return jsonify(final_tobs)
 
 
-        # Append to empty list
-        tobs.append(tobs_dict)
-
-    # Jsonify the list
-    return jsonify(tobs)
-
-
-
-'''
-# Routh 6:
+# Routh 6: Start Date and End Date 
 @app.route("/api/v1.0/<start>/<end>")
-    
+def start_end_date(start, end):
+    # Begin session to start calling from database
+    session = Session(engine)    
+    final = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
+        filter(measurement.date >= start).\
+        filter(measurement.date <= end).all()
+    session.close()
 
-'''
+    # Create dictionary from empty list  
+    final_tobs = []
+    for date, min_tobs, max_tobs, avg_tobs in final:
+        tobs_dict = {}
+        tobs_dict["Date"] = date
+        tobs_dict["Min"] = min_tobs 
+        tobs_dict["Max"] = max_tobs 
+        tobs_dict["Avg"] = avg_tobs
+
+        # Append to empty list
+        final_tobs.append(tobs_dict)
+    
+    return jsonify(final_tobs)
+    
+if __name__ == "__main__":
+    app.run(debug=True)
+  
