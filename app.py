@@ -133,11 +133,42 @@ def tobs():
     return jsonify(tobs)
 
 
-# Route 5: Temperatures
-@app.route("/api/v1.0/<start")
+# Route 5: Start Date 
+@app.route("/api/v1.0/<start>")
+def start_date(start):
+    # Begin session to start calling from database
+    session = Session(engine)
+    
+    start_date = dt.date(int(date[0]), int(date[1]), int(date[2]))
+    final = session.query(measurement.date, func.min(measurement.tobs), func.max(measurement.tobs), func.avg(measurement.tobs)).\
+        filter(measurement.date >= start_date)
+    session.close()
+
+     Create dictionary from empty list  
+    final_tobs = []
+    for date, min_tobs, max_tobs, avg_tobs in final:
+        tobs_dict = {}
+        tobs_dict["Date"] = date
+        tobs_dict["Min"] = min_tobs 
+        tobs_dict["Max"] = max_tobs 
+        tobs_dict["Avg"] = avg_tobs
+
+        final_tobs.append(tobs_dict)
+    
+    return jsonify(final_tobs)
+
+
+        # Append to empty list
+        tobs.append(tobs_dict)
+
+    # Jsonify the list
+    return jsonify(tobs)
+
+
 
 '''
-@app.route("/api/v1.0/<start>/<end")
+# Routh 6:
+@app.route("/api/v1.0/<start>/<end>")
     
 
 '''
