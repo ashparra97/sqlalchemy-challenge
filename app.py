@@ -143,7 +143,7 @@ def start_date(start):
     session.close()
 
     # Create dictionary from empty list  
-    final_tobs = []
+    start_tobs = []
     for date, min_tobs, max_tobs, avg_tobs in final:
         tobs_dict = {}
         tobs_dict["Date"] = date
@@ -152,7 +152,7 @@ def start_date(start):
         tobs_dict["Avg"] = avg_tobs
 
         # Append to empty list
-        final_tobs.append(tobs_dict)
+        start_tobs.append(tobs_dict)
     
     return jsonify(final_tobs)
 
@@ -168,7 +168,7 @@ def start_end_date(start, end):
     session.close()
 
     # Create dictionary from empty list  
-    final_tobs = []
+    end_tobs = []
     for date, min_tobs, max_tobs, avg_tobs in final:
         tobs_dict = {}
         tobs_dict["Date"] = date
@@ -177,10 +177,10 @@ def start_end_date(start, end):
         tobs_dict["Avg"] = avg_tobs
 
         # Append to empty list
-        final_tobs.append(tobs_dict)
+        end_tobs.append(tobs_dict)
     
     return jsonify(final_tobs)
-    
+
 if __name__ == "__main__":
     app.run(debug=True)
   
